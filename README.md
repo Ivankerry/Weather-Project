@@ -10,7 +10,7 @@ A weather dashboard + farm tree analysis tool built with HTML, CSS, and vanilla 
 
 1. Clone the repo
    ```bash
-   git clone https://github.com/YOUR_USERNAME/weatherai-app.git
+   git clone https://github.com/Ivankerry/weatherai-app.git
    cd weatherai-app
    ```
 
