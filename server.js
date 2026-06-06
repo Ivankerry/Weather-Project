@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
@@ -15,14 +16,36 @@ const mimeTypes = {
 http.createServer((req, res) => {
   let filePath = '.' + req.url.split('?')[0];
   if (filePath === './') filePath = './index.html';
-  if (req.url === '/js/config.js') {
+  // Local development proxy to simulate Vercel's /api/proxy serverless function
+  if (req.url.startsWith('/api/proxy')) {
     let envContent = '';
-    try { envContent = fs.readFileSync('.env', 'utf8'); } catch(e){}
+    try { envContent = fs.readFileSync('.env', 'utf8'); } catch (e) { }
     const match = envContent.match(/API_KEY=(.*)/);
-    const apiKey = match ? match[1].trim() : 'YOUR_API_KEY_HERE';
-    
-    res.writeHead(200, { 'Content-Type': 'application/javascript' });
-    res.end(`export const API_BASE_URL = 'https://api.weather-ai.co';\nexport const API_KEY = '${apiKey}';`);
+    const apiKey = match ? match[1].trim() : '';
+
+    const targetPath = req.url.replace('/api/proxy', '');
+    const options = {
+      hostname: 'api.weather-ai.co',
+      port: 443,
+      path: targetPath,
+      method: req.method,
+      headers: {
+        ...req.headers,
+        host: 'api.weather-ai.co',
+        'Authorization': `Bearer ${apiKey}`
+      }
+    };
+
+    // Pipe the request transparently
+    const proxyReq = https.request(options, (proxyRes) => {
+      res.writeHead(proxyRes.statusCode, proxyRes.headers);
+      proxyRes.pipe(res, { end: true });
+    });
+    proxyReq.on('error', (e) => {
+      res.writeHead(500);
+      res.end(`Proxy Error: ${e.message}`);
+    });
+    req.pipe(proxyReq, { end: true });
     return;
   }
 

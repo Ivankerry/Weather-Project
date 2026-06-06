@@ -1,12 +1,9 @@
-import { API_BASE_URL, API_KEY } from '../config.js';
+import { API_BASE_URL } from '../config.js';
 import { renderFarmAnalysis } from '../ui/farmUI.js';
 
 export async function analyzeFarmImage(formData) {
   const response = await fetch(`${API_BASE_URL}/v1/trees/analyze`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${API_KEY}`
-    },
     body: formData
   });
 
