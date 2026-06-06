@@ -23,10 +23,11 @@ A weather dashboard + farm tree analysis tool built with HTML, CSS, and vanilla 
 
 3. Navigate to **http://localhost:8080/** in your browser.
 
-4. Open `js/config.js` and add your WeatherAI API key:
-   ```javascript
-   export const API_KEY = 'YOUR_API_KEY_HERE';
+4. Create a `.env` file in the root directory and add your WeatherAI API key:
+   ```env
+   API_KEY=YOUR_API_KEY_HERE
    ```
+   *(The custom Node server dynamically passes this to the front-end to protect it from source control).*
 
 ## Architecture
 
