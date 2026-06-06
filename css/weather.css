@@ -137,7 +137,21 @@
 }
 
 .hourly-strip::-webkit-scrollbar {
-  display: none;
+  height: 8px;
+}
+
+.hourly-strip::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.hourly-strip::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.hourly-strip::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
 }
 
 .hour-card {

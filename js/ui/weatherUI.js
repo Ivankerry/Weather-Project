@@ -145,6 +145,20 @@ function renderHourlyStrip(hours) {
     card.appendChild(tempLabel);
     container.appendChild(card);
   });
+
+  // Enable easy horizontal scrolling with mouse wheel for desktop users
+  container.addEventListener('wheel', (evt) => {
+    if (evt.deltaY !== 0) {
+      const atLeftEnd = container.scrollLeft <= 0 && evt.deltaY < 0;
+      const atRightEnd = container.scrollLeft >= (container.scrollWidth - container.clientWidth) && evt.deltaY > 0;
+      
+      // Only hijack vertical scroll if there's room to scroll horizontally
+      if (!atLeftEnd && !atRightEnd) {
+        evt.preventDefault();
+        container.scrollLeft += evt.deltaY;
+      }
+    }
+  }, { passive: false });
 }
 
 function renderWeeklyForecast(forecastDays) {
