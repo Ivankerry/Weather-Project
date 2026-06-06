@@ -1,0 +1,18 @@
+/* Theme: Deep Space / Cinematic Dark */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  /* Color Palette Variables */
+  --bg-deep:       #080b12;   /* outermost page background */
+  --bg-card:       #0f1420;   /* card/panel surface */
+  --bg-card-hover: #141926;   /* card on hover */
+  --accent-teal:   #14b8a6;   /* primary accent - teal-500 */
+  --accent-violet: #7c3aed;   /* secondary accent - violet */
+  --accent-amber:  #f59e0b;   /* warm highlight for sunrise/sunset */
+  --text-primary:  #f0f4ff;   /* near-white main text */
+  --text-secondary:#8b9cc8;   /* muted blue-gray label text */
+  --text-dim:      #3d4a6b;   /* very muted, borders, placeholders */
+  --border:        #1c253a;   /* card borders */
+  --success:       #22c55e;
+  --danger:        #ef4444;
+}

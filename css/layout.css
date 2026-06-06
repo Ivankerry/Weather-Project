@@ -1,0 +1,149 @@
+/* Header style - Sticky Frosted Nav bar */
+#site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: rgba(8, 11, 18, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 28px;
+  height: 20px;
+}
+
+.logo-text {
+  font-family: 'Sora', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.logo-text span {
+  color: var(--accent-teal);
+}
+
+.location-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#header-city {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Main Content and Tab Panels */
+#main-content {
+  flex: 1;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+#tab-weather {
+  padding: 88px 32px 40px;
+}
+
+#tab-farm {
+  padding: 88px 32px 40px;
+}
+
+/* Sections separation */
+.weather-section {
+  margin-bottom: 32px;
+}
+
+/* Footer Section */
+#site-footer {
+  padding: 24px 32px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.footer-left {
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.footer-right {
+  background: rgba(20, 184, 166, 0.1);
+  color: var(--accent-teal);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  font-weight: 500;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+  }
+  .hero-left, .hero-right {
+    width: 100%;
+  }
+  .forecast-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  #site-header {
+    padding: 0 16px;
+  }
+  #tab-weather, #tab-farm {
+    padding: 88px 16px 40px;
+  }
+  .forecast-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #hero-temp {
+    font-size: 72px;
+  }
+  .farm-results {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-switcher .tab-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .forecast-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #hero-temp {
+    font-size: 56px;
+  }
+  .stats-bar {
+    flex-direction: column;
+  }
+}

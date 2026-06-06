@@ -1,0 +1,321 @@
+/* Farm Scanner Upload Zone */
+.upload-zone {
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 48px 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: var(--bg-card);
+}
+
+.dropzone:hover, .dropzone.dragover {
+  border-color: var(--accent-teal);
+  background: rgba(20, 184, 166, 0.04);
+}
+
+.dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.dropzone-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--text-dim);
+  transition: color 0.2s ease;
+}
+
+.dropzone:hover .dropzone-icon {
+  color: var(--accent-teal);
+}
+
+.drop-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.drop-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Image preview mode styling */
+.preview-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#preview-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.preview-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+#preview-filename {
+  color: var(--text-secondary);
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
+}
+
+.preview-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* Farm details collapsible details form */
+.details-summary {
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 16px;
+  user-select: none;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.details-input-group.full-width {
+  grid-column: span 2;
+}
+
+.details-grid input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  transition: border-color 0.2s ease;
+}
+
+.details-grid input:focus {
+  border-color: var(--accent-teal);
+  outline: none;
+}
+
+/* Farm loading state styling */
+.farm-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+  text-align: center;
+}
+
+.loading-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.loading-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Farm Results Section */
+.farm-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+  animation: fadeSlideUp 0.4s ease both;
+}
+
+.farm-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-tile {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.stat-label {
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.stat-value.teal { color: var(--accent-teal); }
+.stat-value.violet { color: var(--accent-violet); }
+.stat-value.amber { color: var(--accent-amber); }
+.stat-value.white { color: var(--text-primary); }
+
+.stat-unit {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Tree Health Card styling */
+.health-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.health-card-header {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.health-row {
+  margin-bottom: 12px;
+}
+
+.health-row-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.health-row-label .name {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.health-row-label .val {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.health-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.6s ease;
+}
+
+.health-fill.success { background-color: var(--success); }
+.health-fill.amber { background-color: var(--accent-amber); }
+.health-fill.danger { background-color: var(--danger); }
+
+/* Image Comparison columns */
+.image-comparison {
+  display: flex;
+  gap: 12px;
+}
+
+.img-comp-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.img-comp-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.img-comp-col img {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  max-height: 180px;
+}
+
+/* Observations & Recommendations insights */
+.insights-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.insights-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.insights-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+
+.insights-list li {
+  padding: 6px 0 6px 16px;
+  position: relative;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.insights-list li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.insights-list.observations li::before {
+  color: var(--accent-teal);
+}
+
+.insights-list.recommendations li::before {
+  color: var(--accent-amber);
+}

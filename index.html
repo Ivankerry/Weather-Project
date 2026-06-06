@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeatherAI - Intelligent Weather & Forestry Analytics</title>
+  <meta name="description" content="Cinematic weather dashboard and agricultural canopy tree counting scanner powered by Gemini AI and WeatherAI API.">
+  
+  <!-- Font and Stylesheets Imports -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/weather.css">
+  <link rel="stylesheet" href="css/farm.css">
+  <link rel="stylesheet" href="css/backgrounds.css">
+  <link rel="stylesheet" href="css/mascot.css">
+</head>
+<body>
+  <div id="bg-effects-container"></div>
+  <div id="app">
+    
+    <!-- Top Frosted Navigation Header -->
+    <header id="site-header">
+      <div class="logo">
+        <!-- SVG cloud icon -->
+        <svg class="logo-icon" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 16C5.067 16 3.5 14.433 3.5 12.5C3.5 10.669 4.908 9.168 6.708 9.016C7.143 6.182 9.58 4 12.5 4C15.111 4 17.332 5.748 18.064 8.182C18.27 8.125 18.481 8.094 18.7 8.094C20.633 8.094 22.2 9.661 22.2 11.594C22.2 13.527 20.633 15.094 18.7 15.094L7 16Z" fill="var(--accent-teal)" />
+          <path d="M12.5 18C8.358 18 5 14.642 5 10.5C5 6.969 7.447 4.01 10.887 3.525C11.393 1.516 13.208 0 15.375 0C17.708 0 19.684 1.706 20.088 4.02C20.25 4.007 20.413 4 20.575 4C22.467 4 24 15.533 24 17.425C24 19.317 22.467 20.85 20.575 20.85L12.5 18Z" fill="var(--accent-teal)" opacity="0.6"/>
+        </svg>
+        <span class="logo-text">Weather<span>AI</span></span>
+      </div>
+      
+      <!-- Center Pill Tab Switcher -->
+      <div class="tab-switcher">
+        <button id="btn-tab-weather" class="tab-btn active" data-tab="tab-weather">Weather</button>
+        <button id="btn-tab-farm" class="tab-btn" data-tab="tab-farm">Farm Scanner</button>
+      </div>
+      
+      <!-- Right Location Pin Badge -->
+      <div class="location-badge">
+        <i data-lucide="map-pin" style="width: 16px; height: 16px; color: var(--accent-teal);"></i>
+        <span id="header-city">Detecting...</span>
+      </div>
+    </header>
+    
+    <!-- Sticky Error Banner for Network/API Failures -->
+    <div id="error-banner">Could not load weather data - please refresh.</div>
+
+    <!-- Main Workspace Area -->
+    <main id="main-content">
+      
+      <!-- 5. Weather Dashboard Tab Panel -->
+      <div id="tab-weather" class="tab-panel active">
+        
+        <!-- 5A. Hero Weather Summary row -->
+        <section class="hero weather-section">
+          
+          <!-- Left Main Weather Metrics Block -->
+          <div class="hero-left">
+            <h1 id="city-name" class="fade-up-element" style="animation-delay: 0.1s;">
+              <span class="skeleton" style="display: inline-block; width: 220px; height: 48px; border-radius: 8px;"></span>
+            </h1>
+            <div id="hero-date-container" class="fade-up-element" style="animation-delay: 0.15s;">
+              <span id="hero-date"></span>
+            </div>
+            
+            <div class="temp-display fade-up-element" style="animation-delay: 0.2s;">
+              <span id="hero-temp">
+                <span class="skeleton" style="display: inline-block; width: 120px; height: 80px; border-radius: 8px;"></span>
+              </span>
+              <span id="degree-symbol" class="degree-unit" style="display: none;">°C</span>
+            </div>
+            
+            <p id="hero-condition" class="fade-up-element" style="animation-delay: 0.3s;"></p>
+            
+            <!-- Smart Agronomic Advice Card -->
+            <div class="ai-summary fade-up-element" style="animation-delay: 0.4s; border-left: 3px solid var(--accent-teal);">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                <i data-lucide="sprout" style="width: 14px; height: 14px; color: var(--accent-teal);"></i>
+                <span style="font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-teal);">AGRONOMIC ADVICE</span>
+              </div>
+              <ul id="weather-farmer-advice-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                <li style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Please upload a farm image in the Farm Scanner tab to generate agronomic recommendations.</li>
+              </ul>
+            </div>
+
+            <!-- Smart Daily Advice Card -->
+            <div class="ai-summary fade-up-element" style="animation-delay: 0.45s; border-left: 3px solid var(--accent-violet);">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                <i data-lucide="compass" style="width: 14px; height: 14px; color: var(--accent-violet);"></i>
+                <span style="font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-violet);">DAILY ADVICE</span>
+              </div>
+              <ul id="personal-advice-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                <li style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Analyzing weather metrics...</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Right Grid Metrics Block -->
+          <div class="hero-right">
+            <div class="metrics-grid">
+              
+              <!-- Humidity Metric -->
+              <div class="metric-tile">
+                <span class="label">HUMIDITY</span>
+                <span class="value" id="m-humidity">
+                  <span class="skeleton" style="display: inline-block; width: 60px; height: 22px; border-radius: 4px;"></span>
+                </span>
+                <span class="unit">%</span>
+              </div>
+              
+              <!-- Wind Speed Metric -->
+              <div class="metric-tile">
+                <span class="label">WIND</span>
+                <span class="value" id="m-wind">
+                  <span class="skeleton" style="display: inline-block; width: 60px; height: 22px; border-radius: 4px;"></span>
+                </span>
+                <span class="unit">km/h</span>
+              </div>
+              
+              <!-- Feels Like Metric -->
+              <div class="metric-tile">
+                <span class="label">FEELS LIKE</span>
+                <span class="value" id="m-feels">
+                  <span class="skeleton" style="display: inline-block; width: 60px; height: 22px; border-radius: 4px;"></span>
+                </span>
+                <span class="unit">°C</span>
+              </div>
+              
+              <!-- UV Index Metric -->
+              <div class="metric-tile">
+                <span class="label">UV INDEX</span>
+                <span class="value" id="m-uv">
+                  <span class="skeleton" style="display: inline-block; width: 60px; height: 22px; border-radius: 4px;"></span>
+                </span>
+                <span class="unit">/11</span>
+              </div>
+              
+              <!-- Rain/Precipitation Metric -->
+              <div class="metric-tile">
+                <span class="label">RAIN</span>
+                <span class="value" id="m-precip">
+                  <span class="skeleton" style="display: inline-block; width: 60px; height: 22px; border-radius: 4px;"></span>
+                </span>
+                <span class="unit">mm</span>
+              </div>
+              
+              <!-- Visibility Metric -->
+              <div class="metric-tile">
+                <span class="label">VISIBILITY</span>
+                <span class="value" id="m-vis">
+                  <span class="skeleton" style="display: inline-block; width: 60px; height: 22px; border-radius: 4px;"></span>
+                </span>
+                <span class="unit">km</span>
+              </div>
+              
+            </div>
+          </div>
+        </section>
+        
+        <!-- 5B. Hourly Forecast Strip Section -->
+        <section class="weather-section">
+          <h2 class="section-label">Today - Hourly</h2>
+          <div class="hourly-strip-container">
+            <div class="hourly-strip" id="hourly-container">
+              <!-- Hourly Cards generated dynamically here -->
+            </div>
+          </div>
+        </section>
+        
+        <!-- 5C. 7-Day Forecast Grid Section -->
+        <section class="weather-section">
+          <h2 class="section-label">7-Day Forecast</h2>
+          <div class="forecast-grid" id="forecast-container">
+            <!-- Day cards generated dynamically here -->
+          </div>
+        </section>
+        
+        <!-- 5D. Bottom Stats Bar Row -->
+        <section class="weather-section stats-bar">
+          
+          <!-- Sun Card (Sunrise/Sunset Arc) -->
+          <div class="sun-card">
+            <div class="stats-card-header">
+              <i data-lucide="sun" style="width: 16px; height: 16px; color: var(--accent-amber);"></i>
+              <span>Sun</span>
+            </div>
+            <div class="stats-card-row">
+              <span class="label">Sunrise</span>
+              <span class="value" id="sunrise-time">--:--</span>
+            </div>
+            <div class="stats-card-row">
+              <span class="label">Sunset</span>
+              <span class="value" id="sunset-time">--:--</span>
+            </div>
+            <!-- Half Circle Sun Tracking Arc -->
+            <div class="sun-arc-container">
+              <svg width="140" height="60" viewBox="0 0 140 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Arc Track Path -->
+                <path d="M10 60C10 26.8629 36.8629 0 70 0C103.137 0 130 26.8629 130 60" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                <!-- Filled Arc Tracker Path -->
+                <path id="sun-arc-filled" d="M10 60C10 26.8629 36.8629 0 70 0C103.137 0 130 26.8629 130 60" stroke="var(--accent-amber)" stroke-width="1.5" stroke-dashoffset="377" stroke-dasharray="377" fill="none"/>
+                <!-- Sun Dot Indicator -->
+                <circle id="sun-arc-dot" cx="10" cy="60" r="4" fill="var(--accent-amber)"/>
+              </svg>
+            </div>
+          </div>
+          
+
+          
+        </section>
+      </div>
+
+      <!-- 6. Farm Scanner Tab Panel -->
+      <div id="tab-farm" class="tab-panel">
+        
+        <!-- 6A. Interactive Drag/Drop Zone -->
+        <section class="upload-zone">
+          <div class="dropzone" id="farm-dropzone">
+            
+            <!-- Default dropzone configuration -->
+            <div class="dropzone-content" id="dropzone-default">
+              <i data-lucide="image-plus" class="dropzone-icon"></i>
+              <p class="drop-title">Drop a farm image here</p>
+              <p class="drop-sub">Aerial, drone or satellite photo &middot; JPEG, PNG, WEBP &middot; max 20MB</p>
+              <button class="btn-browse" type="button">Browse files</button>
+            </div>
+            
+            <!-- Preview configuration (hidden by default) -->
+            <div class="preview-container" id="dropzone-preview" style="display: none;">
+              <img id="preview-img" src="" alt="Selected farm source image">
+              <div class="preview-actions">
+                <span id="preview-filename">filename.jpg</span>
+                <div class="preview-buttons">
+                  <button class="btn-clear" id="btn-clear-preview" type="button">Clear</button>
+                  <button id="btn-analyze" type="button">Analyze Farm</button>
+                </div>
+              </div>
+            </div>
+            
+            <input type="file" id="farm-file-input" accept="image/jpeg,image/png,image/webp" style="display: none;">
+          </div>
+          
+          <!-- Optional details dropdown details form -->
+          <details style="margin-top: 16px;">
+            <summary class="details-summary">Add farm details (optional)</summary>
+            <div class="details-grid">
+              <div class="details-input-group">
+                <input type="text" id="input-farmer-id" placeholder="Farmer ID e.g. F-001">
+              </div>
+              <div class="details-input-group">
+                <input type="text" id="input-county" placeholder="County e.g. Bomet">
+              </div>
+              <div class="details-input-group">
+                <input type="text" id="input-acres" placeholder="Land acres e.g. 2.5">
+              </div>
+              <div class="details-input-group">
+                <input type="text" id="input-location" placeholder="Farm name or GPS description">
+              </div>
+              <div class="details-input-group full-width">
+                <input type="text" id="input-notes" placeholder="Extra context e.g. Tea plantation, recently pruned">
+              </div>
+            </div>
+          </details>
+          
+          <!-- Small inline API error reporter inside dropzone container -->
+          <div id="farm-error" style="display: none; color: var(--danger); font-size: 13px; text-align: center; margin-top: 12px; font-weight: 500;"></div>
+        </section>
+        
+        <!-- 6B. Farm Analysis Loading State indicator -->
+        <section class="farm-loading" id="farm-loading-indicator" style="display: none;">
+          <div class="spinner"></div>
+          <p class="loading-title">Analyzing farm image...</p>
+          <p class="loading-sub">CV model detecting tree crowns &middot; Gemini generating insights</p>
+        </section>
+        
+        <!-- 6C. Analysis results panel -->
+        <section class="farm-results" id="farm-results-panel" style="display: none;">
+          
+          <!-- Left side metric tiles and health distributions -->
+          <div class="farm-results-left">
+            
+            <div class="farm-stats">
+              <div class="stat-tile">
+                <div class="stat-label">TREES COUNTED</div>
+                <div class="stat-value teal" id="stat-trees">-</div>
+                <div class="stat-unit">detected crowns</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-label">CANOPY COVER</div>
+                <div class="stat-value violet" id="stat-canopy">-%</div>
+                <div class="stat-unit">of total acreage</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-label">CONFIDENCE</div>
+                <div class="stat-value amber" id="stat-confidence">-%</div>
+                <div class="stat-unit">detection margin</div>
+              </div>
+              <div class="stat-tile">
+                <div class="stat-label">DENSITY / ACRE</div>
+                <div class="stat-value white" id="stat-density">-</div>
+                <div class="stat-unit">trees per acre</div>
+              </div>
+            </div>
+            
+            <!-- Tree Health distribution breakdown -->
+            <div class="health-card">
+              <div class="health-card-header">Tree Health</div>
+              
+              <!-- Healthy items -->
+              <div class="health-row">
+                <div class="health-row-label">
+                  <span class="name">Healthy</span>
+                  <span class="val" id="val-healthy">- (-)</span>
+                </div>
+                <div class="health-track">
+                  <div class="health-fill success" id="fill-healthy"></div>
+                </div>
+              </div>
+              
+              <!-- Needs Care items -->
+              <div class="health-row">
+                <div class="health-row-label">
+                  <span class="name">Needs care</span>
+                  <span class="val" id="val-care">- (-)</span>
+                </div>
+                <div class="health-track">
+                  <div class="health-fill amber" id="fill-care"></div>
+                </div>
+              </div>
+              
+              <!-- Needs Replacement items -->
+              <div class="health-row">
+                <div class="health-row-label">
+                  <span class="name">Needs replacement</span>
+                  <span class="val" id="val-replacement">- (-)</span>
+                </div>
+                <div class="health-track">
+                  <div class="health-fill danger" id="fill-replacement"></div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+          <!-- Right side visual preview comparisons and observations -->
+          <div class="farm-results-right">
+            
+            <!-- Image Comparison elements -->
+            <div class="image-comparison">
+              <div class="img-comp-col">
+                <div class="img-comp-label">Original</div>
+                <img id="img-original" src="" alt="User uploaded original farm view">
+              </div>
+              <div class="img-comp-col">
+                <div class="img-comp-label">AI Annotated</div>
+                <img id="img-annotated" src="" alt="Computer vision overlay detection view">
+              </div>
+            </div>
+            
+            <!-- Textual Observations and Advice card -->
+            <div class="insights-card">
+              <div class="insights-header">
+                <i data-lucide="eye" style="width: 14px; height: 14px; color: var(--accent-teal);"></i>
+                <span>Observations</span>
+              </div>
+              <ul class="insights-list observations" id="farm-observations">
+                <!-- Observation items filled by JS -->
+              </ul>
+              
+              <hr style="border: none; border-top: 1px solid var(--border); margin: 14px 0;">
+              
+              <div class="insights-header">
+                <i data-lucide="lightbulb" style="width: 14px; height: 14px; color: var(--accent-amber);"></i>
+                <span>Recommendations</span>
+              </div>
+              <ul class="insights-list recommendations" id="farm-recommendations">
+                <!-- Recommendation items filled by JS -->
+              </ul>
+
+              <hr style="border: none; border-top: 1px solid var(--border); margin: 14px 0;">
+              
+              <div class="insights-header">
+                <i data-lucide="sprout" style="width: 14px; height: 14px; color: var(--accent-teal);"></i>
+                <span>Smart Agronomic Advice</span>
+              </div>
+              <ul class="insights-list observations" id="farm-smart-advice">
+                <!-- Smart crossover advice filled by JS -->
+              </ul>
+            </div>
+            
+          </div>
+        </section>
+        
+      </div>
+    </main>
+
+    <!-- Bottom Footer section -->
+    <footer id="site-footer">
+      <div class="footer-left">
+        WeatherAI &middot; Powered by WeatherAI API
+      </div>
+      <div class="footer-right">
+        <!-- Removed billing limits -->
+      </div>
+    </footer>
+    
+    <!-- Aero: The Farm Mascot & Virtual Pet -->
+    <div id="aero-mascot" class="aero-container">
+      <div class="aero-bubble" id="aero-bubble">
+        <span id="aero-text">Hello! I am Aero. Let's check the weather!</span>
+        <button id="btn-aero-trivia" type="button" class="aero-trivia-btn">Ask Aero for Trivia</button>
+      </div>
+      <div class="aero-character">
+        <svg width="80" height="80" viewBox="0 0 100 100" id="aero-svg" xmlns="http://www.w3.org/2000/svg">
+          <!-- Floating shadow -->
+          <ellipse cx="50" cy="85" rx="20" ry="4" fill="rgba(0, 0, 0, 0.25)" class="aero-shadow"/>
+          
+          <!-- Drone body group -->
+          <g class="aero-body-group">
+            <!-- Propellers -->
+            <line x1="20" y1="25" x2="40" y2="25" stroke="var(--text-secondary)" stroke-width="3" class="aero-propeller-left"/>
+            <line x1="60" y1="25" x2="80" y2="25" stroke="var(--text-secondary)" stroke-width="3" class="aero-propeller-right"/>
+            
+            <!-- Propeller supports -->
+            <path d="M30 25 L40 40 M70 25 L60 40" stroke="var(--text-dim)" stroke-width="4"/>
+            
+            <!-- Leaf umbrella (visible when raining) -->
+            <g id="aero-leaf-umbrella" style="display: none;">
+              <path d="M50 40 L50 15 Q50 10 55 10" stroke="#8b5a2b" stroke-width="2" fill="none"/>
+              <path d="M40 10 Q50 2 60 10 Q55 20 40 10" fill="var(--success)"/>
+            </g>
+            
+            <!-- Main face body -->
+            <circle cx="50" cy="50" r="22" fill="var(--bg-card)" stroke="var(--border)" stroke-width="3" id="aero-face-bg"/>
+            
+            <!-- Eyes -->
+            <ellipse cx="42" cy="48" rx="3" ry="5" fill="var(--accent-teal)" id="aero-eye-left"/>
+            <ellipse cx="58" cy="48" rx="3" ry="5" fill="var(--accent-teal)" id="aero-eye-right"/>
+            
+            <!-- Sunglasses (visible when sunny) -->
+            <g id="aero-sunglasses" style="display: none;">
+              <rect x="34" y="44" width="14" height="7" rx="3" fill="#000" stroke="var(--accent-amber)" stroke-width="1.5"/>
+              <rect x="52" y="44" width="14" height="7" rx="3" fill="#000" stroke="var(--accent-amber)" stroke-width="1.5"/>
+              <line x1="48" y1="47" x2="52" y2="47" stroke="var(--accent-amber)" stroke-width="2"/>
+            </g>
+            
+            <!-- Cute mouth -->
+            <path d="M47 56 Q50 58 53 56" stroke="var(--accent-teal)" stroke-width="2.5" fill="none" id="aero-mouth"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Script Imports (Lucide and Main App Logic) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
