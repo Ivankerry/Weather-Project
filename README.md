@@ -2,6 +2,8 @@
 
 A weather dashboard + farm tree analysis tool built with HTML, CSS, and vanilla JavaScript, powered by the WeatherAI API.
 
+**Live Demo:** [https://weather-project-three-eta.vercel.app/](https://weather-project-three-eta.vercel.app/)
+
 ## Features
 - Auto-detects your location and shows current conditions, AI weather insights, hourly and 7-day forecast
 - Farm Scanner: upload drone/aerial images to count trees, assess canopy health, and get agronomic recommendations
